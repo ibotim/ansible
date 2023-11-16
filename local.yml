@@ -1,28 +1,21 @@
-- hosts: localhost
-  become: true
+---
+- name: Install VSCode on Ubuntu
+  hosts: all
+  become: yes
   tasks:
-  - name: Update apt-get
-    apt: update_cache=yes force_apt_get=yes
+    - name: Import Microsoft GPG key
+      ansible.builtin.apt_key:
+        url: https://packages.microsoft.com/keys/microsoft.asc
+        state: present
 
-  - name: Upgrade apt-get
-    apt: upgrade=dist force_apt_get=yes
+    - name: Add VSCode repository
+      ansible.builtin.apt_repository:
+        repo: deb [arch=amd64] http://packages.microsoft.com/repos/code stable main
+        state: present
 
-  - name: Check if a reboot is needed for Debian and Ubuntu boxes
-    register: reboot_required_file
-    stat: path=/var/run/reboot-required get_md5=no
+    - name: Install VSCode
+      ansible.builtin.apt:
+        name: code
+        update_cache: yes
+        state: latest
 
-  - name: Reboot the Debian or Ubuntu server
-    reboot:
-      msg: "Reboot initiated by Ansible due to kernel updates"
-      connect_timeout: 5
-      reboot_timeout: 30
-      pre_reboot_delay: 0
-      post_reboot_delay: 30
-      test_command: uptime
-    when: reboot_required_file.stat.exists
-
-  - name: Install terminal packages
-    apt: name={{item}}
-    with_items:
-      - tmux
-      - zsh
