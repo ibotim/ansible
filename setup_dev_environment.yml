@@ -1,0 +1,14 @@
+---
+- hosts: all
+  become: yes
+  tasks:
+    - name: Update APT package lists
+      import_tasks: update_apt.yml
+
+    - name: Install Visual Studio Code
+      import_tasks: install_vscode.yml
+
+    - name: Install Docker
+      import_tasks: install_docker.yml
+
+    # Add more tasks as needed

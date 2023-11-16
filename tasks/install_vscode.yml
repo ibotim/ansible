@@ -1,6 +1,5 @@
 ---
-- name: Install VSCode on Ubuntu
-  hosts: all
+- name: Install Visual Studio Code
   become: yes
   tasks:
     - name: Import Microsoft GPG key
@@ -18,4 +17,5 @@
         name: code
         update_cache: yes
         state: latest
+
 
