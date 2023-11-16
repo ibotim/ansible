@@ -3,12 +3,12 @@
   become: yes
   tasks:
     - name: Update APT package lists
-      import_tasks: update_apt.yml
+      import_tasks: tasks/update_apt.yml
 
     - name: Install Visual Studio Code
-      import_tasks: install_vscode.yml
+      import_tasks: tasks/install_vscode.yml
 
     - name: Install Docker
-      import_tasks: install_docker.yml
+      import_tasks: tasks/install_docker.yml
 
     # Add more tasks as needed
